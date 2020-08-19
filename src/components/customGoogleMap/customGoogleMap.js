@@ -31,10 +31,15 @@ const CustomGoogleMap = () => {
   const onAutocompletePlaceChanged = () => {
     if (autocomplete !== null) {
       const autocompletePlace = autocomplete.getPlace()
-      const currentCoordinates = { lat: autocompletePlace.geometry.location.lat(), lng: autocompletePlace.geometry.location.lng() }
-      dispatch(setMapCenter(currentCoordinates))
-      dispatch(setAutocompleteValue(autocompletePlace.formatted_address))
-      setInputValue(autocompletePlace.formatted_address)
+      if (autocompletePlace.geometry) {
+        const currentCoordinates = { lat: autocompletePlace.geometry.location.lat(), lng: autocompletePlace.geometry.location.lng() }
+        dispatch(setMapCenter(currentCoordinates))
+        dispatch(setAutocompleteValue(autocompletePlace.formatted_address))
+        setInputValue(autocompletePlace.formatted_address)
+      }
+      else {
+        console.log('No location selected')
+      }
     } else {
       console.log('Autocomplete is not loaded yet!')
     }
